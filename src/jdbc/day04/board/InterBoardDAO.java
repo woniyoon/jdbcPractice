@@ -1,6 +1,7 @@
 package jdbc.day04.board;
 
 import java.util.List;
+import java.util.Map;
 
 public interface InterBoardDAO {
 
@@ -16,5 +17,5 @@ public interface InterBoardDAO {
 
 	int editSubAndConts(String newSubject, String newContents, String boardNo);
 
-	int deletePost(String boardNo, String password);
+	int deletePost(Map<String, String> paraMap);
 }

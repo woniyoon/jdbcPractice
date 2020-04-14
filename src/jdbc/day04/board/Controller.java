@@ -130,6 +130,27 @@ public class Controller {
 		
 		return result;
 	}
+//	public int confirmCommit(String answer) {
+//		int result = 0;
+//		Connection conn = MyDBConnection.getConn();
+//		
+//		try {
+//			if("Y".equalsIgnoreCase(answer)) {
+//				conn.commit();
+//				result = 1;
+//			} else if("N".equalsIgnoreCase(answer)) {
+//				conn.rollback();
+//				result = 0;
+//			} else {
+//				System.out.println(">>> Y나 N 둘 중 하나만 입력해");
+//				result = -1;
+//			}
+//		} catch(SQLException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
+//	}
 
 
 	public void fetchBoard() {
@@ -240,7 +261,9 @@ public class Controller {
 	public void deletePost(MemberDTO loginUser, Scanner sc) {
 		System.out.print("▷ 삭제할 글번호 :");
 		String boardNo = sc.nextLine();
-		
+	
+		Map<String, String> paramap = new HashMap<String, String>();
+	
 		BoardDTO brdDTO = brdDAO.showContent(boardNo);
 		
 		if(brdDTO == null) {
@@ -251,7 +274,10 @@ public class Controller {
 			System.out.print("▷ 글 비밀번호 :");
 			String password = sc.nextLine();
 			
-			int result = brdDAO.deletePost(boardNo, password);
+			paramap.put("boardno", boardNo);
+			paramap.put("boardpasswd", password);
+			
+			int result = brdDAO.deletePost(paramap);
 
 			if(result == 0) {
 				System.out.println("\n>>> 삭제 실패 ! <<<");
@@ -272,9 +298,6 @@ public class Controller {
 				}
 			}
 		}
-		
-		
-	
 	}
 	
 

@@ -228,7 +228,7 @@ public class BoardDAO implements InterBoardDAO {
 	}
 
 	@Override
-	public int deletePost(String boardNo, String password) {
+	public int deletePost(Map<String, String> paraMap) {
 		int result = 0;
 		
 		try {
@@ -239,8 +239,8 @@ public class BoardDAO implements InterBoardDAO {
 							   + "where boardno = ? AND boardpasswd = ?";
 			
 			pstmt = conn.prepareStatement(deleteSQL);
-			pstmt.setString(1, boardNo);
-			pstmt.setString(2, password);
+			pstmt.setString(1, paraMap.get("boardno"));
+			pstmt.setString(2, paraMap.get("boardpasswd"));
 			
 			result = pstmt.executeUpdate();
 			
