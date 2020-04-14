@@ -137,7 +137,6 @@ public class MemberDAO implements InterMemberDAO {
 			close();
 		}
 		
-		System.out.println("updatePoint 메소드의 result : "+result);
 		return result;
 	}
 
