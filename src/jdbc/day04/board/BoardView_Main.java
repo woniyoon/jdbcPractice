@@ -116,6 +116,8 @@ public class BoardView_Main {
 				
 				if(n == 1) {
 					System.out.println("\n >>> 회원가입 축하 !");
+				} else if(n == 0) {
+					System.out.println("\n >>> 회원가입 취소 !");
 				} else {
 					System.out.println("\n >>> 회원가입 실패 !");
 				}

@@ -39,21 +39,9 @@ public class Controller {
 				System.out.println(">>> 회원가입을 정말로 하시겠습니까? [Y/N] ");
 				String answer = sc.nextLine();
 				
-				try {
-					if("Y".equalsIgnoreCase(answer)) {
-						conn.commit();
-						break;
-					} else if("N".equalsIgnoreCase(answer)) {
-						conn.rollback();
-						result = -1;
-						break;
-					} else {
-						System.out.println(">>> Y나 N 둘 중 하나만 입력해");
-					}
-				} catch(SQLException e) {
-					e.printStackTrace();
-				}
-			} while (true);
+				result = confirmCommit(answer);
+				
+			} while (result == -1);
 		}
 		return result;
 	}
