@@ -10,5 +10,5 @@ public interface InterBoardDAO {
 
 	BoardDTO showContent(String boardNo);
 	
-	int incrementViewCount(String boardNo);
+	void incrementViewCount(String boardNo);
 }
