@@ -139,8 +139,7 @@ public class BoardDAO implements InterBoardDAO {
 	}
 
 	@Override
-	public int incrementViewCount(String boardNo) {
-		int result = 0;
+	public void incrementViewCount(String boardNo) {
 		
 		try {
 			conn = MyDBConnection.getConn();
@@ -153,13 +152,14 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt = conn.prepareStatement(updateSQL);
 			pstmt.setString(1, boardNo);
 			
-			result = pstmt.executeUpdate();
+			pstmt.executeUpdate();
+			
+			conn.commit();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return result;
 	}
 
 }
