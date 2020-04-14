@@ -84,7 +84,7 @@ public class BoardView_Main {
 			
 			switch (mainMenuNo) {
 			case "1":
-				MemberDTO loginUser = login();
+				login();
 				break;
 			case "2":
 				signUp();
