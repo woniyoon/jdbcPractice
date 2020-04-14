@@ -114,7 +114,7 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = MyDBConnection.getConn();
 			
-			String selectSQL = "select contents, fk_userid\n"+
+			String selectSQL = "select contents, fk_userid, subject, boardno\n"+
 					"from jdbc_board\n"+
 					"where boardno = ?"; 
 			
@@ -128,6 +128,8 @@ public class BoardDAO implements InterBoardDAO {
 				brdDTO = new BoardDTO();
 				brdDTO.setContents(rs.getString(1));
 				brdDTO.setFk_userid(rs.getString(2));
+				brdDTO.setSubject(rs.getString(3));
+				brdDTO.setBoardno(rs.getInt(4));
 			}
 			
 		} catch (SQLException e) {
@@ -160,6 +162,69 @@ public class BoardDAO implements InterBoardDAO {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public BoardDTO editPost(String boardNo) {
+		BoardDTO brdDTO = null;
+		
+		try {
+			conn = MyDBConnection.getConn();
+						
+			String selectSQL = " select boardno,\n"+
+								"       fk_userid,\n"+
+								"       subject,\n"+
+								"       contents,\n"+
+								"       boardpasswd\n"+
+								" from jdbc_board\n"+
+								" where boardno = ? ";
+			
+			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, boardNo);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				brdDTO = new BoardDTO();
+				
+				brdDTO.setBoardno(rs.getInt(1));
+				brdDTO.setFk_userid(rs.getString(2));
+				brdDTO.setSubject(rs.getString(3));
+				brdDTO.setContents(rs.getString(4));
+				brdDTO.setBoardpasswd(rs.getString(5));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return brdDTO;
+	}
+
+	@Override
+	public int editSubAndConts(String newSubject, String newContents, String boardNo) {
+		int result = 0;
+		
+		try {
+			conn = MyDBConnection.getConn();
+			
+
+			String updateSQL = " update jdbc_board "
+								+ " set subject = ?, contents = ? "
+								+ " where boardno = ?";
+			
+			pstmt = conn.prepareStatement(updateSQL);
+			pstmt.setString(1, newSubject);
+			pstmt.setString(2, newContents);
+			pstmt.setString(3, boardNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 }
