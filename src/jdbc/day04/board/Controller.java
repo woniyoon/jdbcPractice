@@ -188,7 +188,11 @@ public class Controller {
 		
 		BoardDTO brdDTO = brdDAO.editPost(boardNo);
 		
-		if(brdDTO != null) {
+		
+		
+		if(brdDTO == null) {
+			System.out.println("\n>>> 존재하지 않는 글번호입니다! <<< ");	
+		} else {
 			if(brdDTO.getFk_userid().equals(loginUser.getUserid())) {
 				
 				System.out.print("▷ 글 비밀번호 : ");
@@ -215,24 +219,64 @@ public class Controller {
 						}while(flag == -1);
 						
 						if (flag == 1) {
-							System.out.println(">> 수정성공!! << ");
+							System.out.println(">> 수정 성공!! << ");
 						} else if(flag == 0){
-							System.out.println(">> 수정취소!! << ");
+							System.out.println(">> 수정 취소!! << ");
 						}
 						
 					} else {
-						System.out.println(">> 수정실패!! <<");
+						System.out.println(">> 수정 실패!! <<");
 					}
 				} else {
-					System.out.println(">> 글암호가 올바르지 않습니다 << ");
+					System.out.println("\n>> 글암호가 올바르지 않습니다 << ");
 				}
 			} else {
 				System.out.println("\n>> 다른 사용자의 글은 수정불가 합니다!! << ");
 			}
-		} else {
-			System.out.println("\n>>> 존재하지 않는 글번호입니다! <<< ");	
 		}
 	}
+	
+	
+	public void deletePost(MemberDTO loginUser, Scanner sc) {
+		System.out.print("▷ 삭제할 글번호 :");
+		String boardNo = sc.nextLine();
+		
+		BoardDTO brdDTO = brdDAO.showContent(boardNo);
+		
+		if(brdDTO == null) {
+			System.out.println("\n>>> 존재하지 않는 글번호입니다! <<< ");	
+		} else if(!(brdDTO.getFk_userid().equals(loginUser.getUserid()))) {
+			System.out.println("\n>> 다른 사용자의 글은 삭제불가 합니다!! << ");
+		} else {
+			System.out.print("▷ 글 비밀번호 :");
+			String password = sc.nextLine();
+			
+			int result = brdDAO.deletePost(boardNo, password);
+
+			if(result == 0) {
+				System.out.println("\n>>> 삭제 실패 ! <<<");
+			} else {
+				int flag = -1;
+				do {
+					System.out.print("▷ 정말로 삭제하시겠습니까?[Y/N] ");
+					String answer = sc.nextLine();
+					
+					flag = confirmCommit(answer);
+					
+				} while(flag == -1);
+				
+				if (flag == 1) {
+					System.out.println(">> 삭제 성공!! << ");
+				} else if(flag == 0){
+					System.out.println(">> 삭제 취소!! << ");
+				}
+			}
+		}
+		
+		
+	
+	}
+	
 
 	// 자원반납
 	public void appExit() {

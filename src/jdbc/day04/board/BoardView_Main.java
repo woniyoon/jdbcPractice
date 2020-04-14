@@ -68,11 +68,9 @@ public class BoardView_Main {
 				break;
 			case "5":	// 글수정
 				controller.editPost(loginUser, sc);
-				
-				
 				break;
-			case "6":	// 글수정
-				
+			case "6":	// 글삭제
+				controller.deletePost(loginUser, sc);
 				break;
 			case "9":	// 로그아웃
 //				loginUser = null;
