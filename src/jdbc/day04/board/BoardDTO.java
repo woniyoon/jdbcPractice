@@ -83,6 +83,14 @@ public class BoardDTO {
 		return listInfo;
 	}
 	
+	public void showPost() {
+		System.out.println("-------------------------------------------------");		
+		System.out.println("|[" + this.getBoardno() + "번 글]");
+		System.out.println("|\t▷글제목 : " + this.getSubject());
+		System.out.println("|\t▷글내용 : " + this.getContents());
+		System.out.println("-------------------------------------------------");		
+	}
+	
 	
 }
 
