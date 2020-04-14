@@ -227,4 +227,28 @@ public class BoardDAO implements InterBoardDAO {
 		return result;
 	}
 
+	@Override
+	public int deletePost(String boardNo, String password) {
+		int result = 0;
+		
+		try {
+			conn = MyDBConnection.getConn();
+			
+
+			String deleteSQL = " delete from jdbc_board "
+							   + "where boardno = ? AND boardpasswd = ?";
+			
+			pstmt = conn.prepareStatement(deleteSQL);
+			pstmt.setString(1, boardNo);
+			pstmt.setString(2, password);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
 }
