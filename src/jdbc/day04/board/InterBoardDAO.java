@@ -11,4 +11,8 @@ public interface InterBoardDAO {
 	BoardDTO showContent(String boardNo);
 	
 	void incrementViewCount(String boardNo);
+
+	BoardDTO editPost(String boardNo);
+
+	int editSubAndConts(String newSubject, String newContents, String boardNo);
 }
