@@ -170,11 +170,8 @@ public class Controller {
 			System.out.println("|\t" + brdDTO.getContents() + "\t\t| " + brdDTO.getFk_userid() + "\t|");
 			System.out.println("-------------------------------------------------");
 
-			if(brdDTO.getFk_userid().equals(loginUser.getUserid())) {
-				int result = brdDAO.incrementViewCount(boardNo);
-				
-				if(result != 0) { confirmCommit("Y"); }
-				else {	confirmCommit("N"); }
+			if(!(brdDTO.getFk_userid().equals(loginUser.getUserid()))) {
+				brdDAO.incrementViewCount(boardNo);
 			}
 			
 		} else {
