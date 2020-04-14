@@ -22,9 +22,10 @@ public class BoardView_Main {
 		String menuOption;
 		
 		do {
-			System.out.println("\n------------------ 게시판메뉴["+ loginUser.getName() +"님] ------------------");
-			System.out.println(" 1.글목록 보기		2.글내용 보기		3.글쓰기		4.댓글쓰기		5.로그아웃");
-			System.out.println("-----------------------------------------------------\n");
+			System.out.println("\n----------------------------- 게시판메뉴["+ loginUser.getName() +"님] -----------------------------");
+			System.out.println(" 1.글목록 보기		2.글내용 보기		3.글쓰기		4.댓글쓰기\n"
+							 + " 5.글수정하기		6.글삭제하기		9.로그아웃");
+			System.out.println("-------------------------------------------------------------------------------------------------\n");
 			System.out.print("▷ 메뉴 선택 : ");
 			
 			menuOption = sc.nextLine();
@@ -65,7 +66,13 @@ public class BoardView_Main {
 			case "4":	// 댓글쓰기
 				
 				break;
-			case "5":	// 로그아웃
+			case "5":	// 글수정
+
+				break;
+			case "6":	// 글수정
+				
+				break;
+			case "9":	// 로그아웃
 //				loginUser = null;
 				System.out.println(">> 로그아웃됐습니다. <<\n");
 				break;
@@ -75,7 +82,7 @@ public class BoardView_Main {
 				break;
 			}
 			
-		} while(!"5".equals(menuOption));
+		} while(!"9".equals(menuOption));
 		
 		return null;
 	}
