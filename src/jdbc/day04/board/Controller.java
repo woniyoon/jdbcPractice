@@ -165,11 +165,13 @@ public class Controller {
 		
 		if(brdDTO != null) {
 			
-			System.out.println("---------------------[" +boardNo + "번 글]--------------------");
-			System.out.println("|\t[글내용]\t\t\t[유저아이디]\t|");
-			System.out.println("|\t" + brdDTO.getContents() + "\t\t| " + brdDTO.getFk_userid() + "\t|");
-			System.out.println("-------------------------------------------------");
+//			System.out.println("---------------------[" +boardNo + "번 글]--------------------");
+//			System.out.println("|\t[글내용]\t\t\t[유저아이디]\t|");
+//			System.out.println("|\t" + brdDTO.getContents() + "\t\t| " + brdDTO.getFk_userid() + "\t|");
+//			System.out.println("-------------------------------------------------");
 
+			brdDTO.showPost();
+			
 			if(!(brdDTO.getFk_userid().equals(loginUser.getUserid()))) {
 				brdDAO.incrementViewCount(boardNo);
 			}
@@ -179,6 +181,63 @@ public class Controller {
 		}
 	}
 	
+
+	public void editPost(MemberDTO loginUser, Scanner sc) {
+		System.out.print("▷ 수정할 글번호 :");
+		String boardNo = sc.nextLine();
+		
+		BoardDTO brdDTO = brdDAO.editPost(boardNo);
+		
+		if(brdDTO != null) {
+			if(brdDTO.getFk_userid().equals(loginUser.getUserid())) {
+				
+				System.out.print("▷ 글 비밀번호 : ");
+				String postPassword = sc.nextLine();
+				
+				if(postPassword.equals(brdDTO.getBoardpasswd())) {
+					brdDTO.showPost();					
+					
+					System.out.print("▷ 글제목 : ");
+					String newSubject = sc.nextLine();
+					System.out.print("▷ 글내용 : ");
+					String newContents = sc.nextLine();
+					
+					int result = brdDAO.editSubAndConts(newSubject, newContents, boardNo);
+					
+					if (result == 1) {
+						int flag = -1;
+						do {
+							System.out.print("▷ 정말로 수정하시겠습니까?[Y/N] ");
+							String answer = sc.nextLine();
+							
+							flag = confirmCommit(answer);
+							
+						}while(flag == -1);
+						
+						if (flag == 1) {
+							System.out.println(">> 수정성공!! << ");
+						} else if(flag == 0){
+							System.out.println(">> 수정취소!! << ");
+						}
+						
+					} else {
+						System.out.println(">> 수정실패!! <<");
+					}
+					
+				} else {
+					System.out.println(">> 글암호가 올바르지 않습니다 << ");
+				}
+				
+			} else {
+				System.out.println("\n>> 다른 사용자의 글은 수정불가 합니다!! << ");
+			}
+			
+		} else {
+			System.out.println("\n>>> 존재하지 않는 글번호입니다! <<< ");
+		}
+		
+	}
+
 	// 자원반납
 	public void appExit() {
 		MyDBConnection.closeConnection();
