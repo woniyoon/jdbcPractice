@@ -67,7 +67,9 @@ public class BoardView_Main {
 				
 				break;
 			case "5":	// 글수정
-
+				controller.editPost(loginUser, sc);
+				
+				
 				break;
 			case "6":	// 글수정
 				
