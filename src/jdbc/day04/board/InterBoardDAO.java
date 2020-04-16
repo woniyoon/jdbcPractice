@@ -18,4 +18,6 @@ public interface InterBoardDAO {
 	int editSubAndConts(Map<String, String> paraMap);
 
 	int deletePost(Map<String, String> paraMap);
+
+	int writeComment(CommentDTO cmtDTO);
 }

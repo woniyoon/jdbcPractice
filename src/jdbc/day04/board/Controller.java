@@ -228,9 +228,9 @@ public class Controller {
 		BoardDTO brdDTO = brdDAO.showContent(boardNo);
 		
 		if(brdDTO == null) {
-			return -1;
+			return -1;			// 존재하지 않는 글
 		} else if(!(brdDTO.getFk_userid().equals(loginUser.getUserid()))) {
-			return -2;
+			return -2;			// 다른 유저의 글 삭제 시도
 		} else {
 			System.out.print("▷ 글 비밀번호 :");
 			String password = sc.nextLine();
@@ -241,7 +241,7 @@ public class Controller {
 			int result = brdDAO.deletePost(paramap);
 
 			if(result == 0) {
-				return -3;
+				return -3;		// DB에 업데이트 된 행 개수 = 0, 비밀번호 틀림
 			} else {
 				int flag = -1;
 				do {
@@ -258,6 +258,41 @@ public class Controller {
 	}
 	
 
+	public int writeComment(MemberDTO loginUser, Scanner sc) {
+		int result = 0;
+		String contents = "";
+		
+		System.out.println("\n>>> 댓글쓰기 <<<");
+		System.out.println("1. 작성자명 : " + loginUser.getName());
+		
+		System.out.print("2. 원글의 글번호 :");
+		String boardno = sc.nextLine();
+
+		do {
+
+			System.out.print("3. 댓글내용 :");
+			contents = sc.nextLine();
+			
+			if(contents == null || contents.trim().isEmpty()) {
+				System.out.println(">>> 댓글 내용은 필수로 입력해야 합니다. <<<");
+			} else {
+				break;
+			} 
+			
+		} while (true);
+			
+		CommentDTO cmtDTO = new CommentDTO();
+		cmtDTO.setFk_boardno(boardno);
+		cmtDTO.setContents(contents);
+		cmtDTO.setFk_userid(loginUser.getUserid());
+		
+		result = brdDAO.writeComment(cmtDTO);
+		
+		
+		return result;
+	}
+
+	
 	// 자원반납
 	public void appExit() {
 		MyDBConnection.closeConnection();

@@ -251,4 +251,35 @@ public class BoardDAO implements InterBoardDAO {
 		return result;
 	}
 
+	@Override
+	public int writeComment(CommentDTO cmtDTO) {
+		int result = 0;
+		
+		try {
+			conn = MyDBConnection.getConn();
+			
+
+			String insertSQL = " insert into jdbc_comment (commentno, fk_boardno, fk_userid, contents)"
+					+ " values(comment_seq.nextval, ?, ?, ?) ";
+					
+			pstmt = conn.prepareStatement(insertSQL);
+			pstmt.setString(1, cmtDTO.getFk_boardno());
+			pstmt.setString(2, cmtDTO.getFk_userid());
+			pstmt.setString(3, cmtDTO.getContents());
+			result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				conn.commit();
+			}
+			
+		} catch (SQLIntegrityConstraintViolationException e) {
+			e.printStackTrace();
+			System.out.println(">>> 원글번호 " + cmtDTO.getFk_boardno() + "은 존재하지 않습니다. <<<");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
 }
