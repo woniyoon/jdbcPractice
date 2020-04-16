@@ -221,7 +221,7 @@ public class Controller {
 	}
 	
 	
-	public void deletePost(MemberDTO loginUser, Scanner sc) {
+	public int deletePost(MemberDTO loginUser, Scanner sc) {
 		System.out.print("▷ 삭제할 글번호 :");
 		String boardNo = sc.nextLine();
 	
@@ -230,9 +230,9 @@ public class Controller {
 		BoardDTO brdDTO = brdDAO.showContent(boardNo);
 		
 		if(brdDTO == null) {
-			System.out.println("\n>>> 존재하지 않는 글번호입니다! <<< ");	
+			return -1;
 		} else if(!(brdDTO.getFk_userid().equals(loginUser.getUserid()))) {
-			System.out.println("\n>> 다른 사용자의 글은 삭제불가 합니다!! << ");
+			return -2;
 		} else {
 			System.out.print("▷ 글 비밀번호 :");
 			String password = sc.nextLine();
@@ -243,7 +243,7 @@ public class Controller {
 			int result = brdDAO.deletePost(paramap);
 
 			if(result == 0) {
-				System.out.println("\n>>> 삭제 실패 ! <<<");
+				return -3;
 			} else {
 				int flag = -1;
 				do {
@@ -254,11 +254,7 @@ public class Controller {
 					
 				} while(flag == -1);
 				
-				if (flag == 1) {
-					System.out.println(">> 삭제 성공!! << ");
-				} else if(flag == 0){
-					System.out.println(">> 삭제 취소!! << ");
-				}
+				return flag;
 			}
 		}
 	}

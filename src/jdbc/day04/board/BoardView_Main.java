@@ -70,7 +70,19 @@ public class BoardView_Main {
 				controller.editPost(loginUser, sc);
 				break;
 			case "6":	// 글삭제
-				controller.deletePost(loginUser, sc);
+				int n = controller.deletePost(loginUser, sc);
+				
+				if (n == 0) {
+					System.out.println(">> 삭제 취소!! << ");
+				} else if (n == -1) {
+					System.out.println("\n>>> 존재하지 않는 글번호입니다! <<< ");	
+				} else if (n == -2) {
+					System.out.println("\n>> 다른 사용자의 글은 삭제불가 합니다!! << ");
+				} else if (n == -3) {
+					System.out.println("\n>>> 비밀번호가 틀렸습니다! <<<");
+				} else if (n == 1) {
+					System.out.println(">> 삭제 성공!! << ");
+				}
 				break;
 			case "9":	// 로그아웃
 //				loginUser = null;
