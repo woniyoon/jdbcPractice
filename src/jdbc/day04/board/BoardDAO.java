@@ -282,4 +282,42 @@ public class BoardDAO implements InterBoardDAO {
 		return result;
 	}
 
+	@Override
+	public List<CommentDTO> fetchComments(String boardno) {
+		List<CommentDTO> comments = new ArrayList<CommentDTO>();
+		
+		try {
+			conn = MyDBConnection.getConn();
+			
+			String selectSQL = " select * from jdbc_comment\n"+
+					" where fk_boardno = ? ";
+
+			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, boardno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				CommentDTO cmtDTO = new CommentDTO();
+				
+				cmtDTO.setCommentno(rs.getInt(1));
+				cmtDTO.setFk_boardno(rs.getString(2));
+				cmtDTO.setFk_userid(rs.getString(3));
+				
+				System.out.println(rs.getString(3) + " in BoardDAO ");
+				
+				comments.add(cmtDTO);
+			}
+			
+			System.out.println(comments.size());
+
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return comments;
+	}
+
 }

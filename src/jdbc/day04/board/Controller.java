@@ -125,8 +125,10 @@ public class Controller {
 			StringBuilder sb = new StringBuilder();
 			
 			for(int i=0;i<boardList.size();i++) {
-			
-				sb.append(boardList.get(i).listInfo()+"\n");
+				BoardDTO post = boardList.get(i);
+				List<CommentDTO> comments = brdDAO.fetchComments(String.valueOf(post.getBoardno()));
+				
+				sb.append(post.listInfo(comments.size())+"\n");
 			}
 			
 			System.out.println("\n-------------------------- [게시글 목록] ---------------------------");

@@ -20,4 +20,6 @@ public interface InterBoardDAO {
 	int deletePost(Map<String, String> paraMap);
 
 	int writeComment(CommentDTO cmtDTO);
+
+	List<CommentDTO> fetchComments(String boardno);
 }
