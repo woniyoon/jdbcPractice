@@ -94,28 +94,6 @@ public class Controller {
 		
 		return result;
 	}
-	
-	public int confirmCommit(String answer) {
-		int result = 0;
-		Connection conn = MyDBConnection.getConn();
-		
-			try {
-				if("Y".equalsIgnoreCase(answer)) {
-					conn.commit();
-					result = 1;
-				} else if("N".equalsIgnoreCase(answer)) {
-					conn.rollback();
-					result = 0;
-				} else {
-					System.out.println(">>> Y나 N 둘 중 하나만 입력해");
-					result = -1;
-				}
-			} catch(SQLException e) {
-				e.printStackTrace();
-			}
-		
-		return result;
-	}
 
 	public void fetchBoard() {
 		List<BoardDTO> boardList = brdDAO.fetchBoard();
@@ -126,7 +104,8 @@ public class Controller {
 			
 			for(int i=0;i<boardList.size();i++) {
 				BoardDTO post = boardList.get(i);
-				List<CommentDTO> comments = brdDAO.fetchComments(String.valueOf(post.getBoardno()));
+				String boardno = String.valueOf(post.getBoardno());
+				List<CommentDTO> comments = brdDAO.fetchComments(boardno);
 				
 				sb.append(post.listInfo(comments.size())+"\n");
 			}
@@ -154,6 +133,7 @@ public class Controller {
 		if(brdDTO != null) {
 			
 			brdDTO.showPost();
+			
 			// comments.size()로 댓글유무 판단  
 			if(comments.size() > 0) {		// 댓글 O 
 				System.out.println("[댓글]");
@@ -299,12 +279,12 @@ public class Controller {
 		} while (true);
 			
 		CommentDTO cmtDTO = new CommentDTO();
+		
 		cmtDTO.setFk_boardno(boardno);
 		cmtDTO.setContents(contents);
 		cmtDTO.setFk_userid(loginUser.getUserid());
 		
 		result = brdDAO.writeComment(cmtDTO);
-		
 		
 		return result;
 	}
@@ -314,4 +294,28 @@ public class Controller {
 	public void appExit() {
 		MyDBConnection.closeConnection();
 	}
+	
+	// commit & rollback 정하는 메소드
+	public int confirmCommit(String answer) {
+		int result = 0;
+		Connection conn = MyDBConnection.getConn();
+		
+			try {
+				if("Y".equalsIgnoreCase(answer)) {
+					conn.commit();
+					result = 1;
+				} else if("N".equalsIgnoreCase(answer)) {
+					conn.rollback();
+					result = 0;
+				} else {
+					System.out.println(">>> Y나 N 둘 중 하나만 입력해");
+					result = -1;
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		
+		return result;
+	}
+
 }

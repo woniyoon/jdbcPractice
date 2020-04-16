@@ -11,7 +11,26 @@ public class BoardDTO {
 	private String boardpasswd;	// 글 비밀번호
 	private MemberDTO member;
 	
-
+	
+	// 게시판에 있는 글들을 보여주는 메소드
+	public String listInfo(int numOfComments) {	//	글번호	글제목	글쓴이	작성일자	조회수
+		if(numOfComments > 0 ) {
+			return boardno+"\t"+subject+" [" + numOfComments + "] \t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
+		} else {
+			return boardno+"\t"+subject+"\t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
+		}
+	}
+	
+	// 글내용을 보여주는 메소드
+	public void showPost() {
+		System.out.println("-------------------------------------------------");		
+		System.out.println("[" + this.getBoardno() + "번 글]");
+		System.out.println("[글제목] : " + this.getSubject());
+		System.out.println("[글내용] : " + this.getContents());
+		System.out.println("-------------------------------------------------");		
+	}
+	
+	
 	// getter & setter
 	public int getBoardno() {
 		return boardno;
@@ -76,24 +95,6 @@ public class BoardDTO {
 	public void setMember(MemberDTO member) {
 		this.member = member;
 	}
-	
-	public String listInfo(int numOfComments) {	//	글번호	글제목	글쓴이	작성일자	조회수
-		if(numOfComments > 0 ) {
-			return boardno+"\t"+subject+" [" + numOfComments + "] \t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
-		} else {
-			return boardno+"\t"+subject+"\t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
-
-		}
-	}
-	
-	public void showPost() {
-		System.out.println("-------------------------------------------------");		
-		System.out.println("[" + this.getBoardno() + "번 글]");
-		System.out.println("[글제목] : " + this.getSubject());
-		System.out.println("[글내용] : " + this.getContents());
-		System.out.println("-------------------------------------------------");		
-	}
-	
 	
 }
 

@@ -9,7 +9,13 @@ public class CommentDTO {
 	private String writeday;
 	private String username;
 	
+
+	// 글내용 보기에서 댓글을 보여주는 메소드  
+	public void showDetail() {
+		System.out.println(contents + "\t\t" + username + "\t\t" + writeday);
+	}
 	
+	// getter & setter	
 	public int getCommentno() {
 		return commentno;
 	}
@@ -58,7 +64,4 @@ public class CommentDTO {
 		this.username = username;
 	}
 	
-	public void showDetail() {
-		System.out.println(contents + "\t" + username + "\t" + writeday);
-	}
 }

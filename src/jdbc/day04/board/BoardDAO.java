@@ -294,7 +294,8 @@ public class BoardDAO implements InterBoardDAO {
 					" (select * \n"+
 					" from jdbc_comment where fk_boardno = ?) \n"+
 					" join (select name, userid from jdbc_member)\n"+
-					" on fk_userid = userid ";
+					" on fk_userid = userid " + 
+					" order by 1 ";
 
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, boardno);
@@ -309,7 +310,6 @@ public class BoardDAO implements InterBoardDAO {
 				cmtDTO.setContents(rs.getString(4));
 				cmtDTO.setWriteday(rs.getString(5));
 				cmtDTO.setUsername(rs.getString(6));
-				System.out.println(rs.getString(6));
 				
 				comments.add(cmtDTO);
 			}

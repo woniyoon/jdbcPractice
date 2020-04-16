@@ -24,7 +24,7 @@ public class BoardView_Main {
 		do {
 			System.out.println("\n----------------------------- 게시판메뉴["+ loginUser.getName() +"님] -----------------------------");
 			System.out.println(" 1.글목록 보기		2.글내용 보기		3.글쓰기		4.댓글쓰기\n"
-							 + " 5.글수정하기		6.글삭제하기		9.로그아웃");
+							 + " 5.글수정하기		6.글삭제하기		7.최근1주일간 일자별 게시글 작성건수		8.이번달 일자별 게시글 작성건수		9.로그아웃");
 			System.out.println("---------------------------------------------------------------------------\n");
 			System.out.print("▷ 메뉴 선택 : ");
 			
@@ -138,14 +138,12 @@ public class BoardView_Main {
 				if(loginUser != null) {
 					System.out.println("\n>>> 로그인 성공 ! ");
 					loginUser = showBoardMenu(loginUser, controller);
-//					System.out.println("확인용 : "+loginUser);
 				} else {
 					System.out.println("\n>>> 로그인 실패 ! ");
 				}
 				
 				break;
 			case "2":
-//				signUp();
 				int n = controller.signUp(sc);
 				
 				if(n == 1) {
