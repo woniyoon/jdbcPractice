@@ -7,6 +7,7 @@ public class CommentDTO {
 	private String fk_userid;
 	private String contents;
 	private String writeday;
+	private String username;
 	
 	
 	public int getCommentno() {
@@ -49,4 +50,15 @@ public class CommentDTO {
 		this.writeday = writeday;
 	}
 	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public void showDetail() {
+		System.out.println(contents + "\t" + username + "\t" + writeday);
+	}
 }

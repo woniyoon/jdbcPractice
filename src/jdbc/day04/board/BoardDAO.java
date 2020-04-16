@@ -289,8 +289,12 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = MyDBConnection.getConn();
 			
-			String selectSQL = " select * from jdbc_comment\n"+
-					" where fk_boardno = ? ";
+			String selectSQL = " select * \n"+
+					" from\n"+
+					" (select * \n"+
+					" from jdbc_comment where fk_boardno = ?) \n"+
+					" join (select name, userid from jdbc_member)\n"+
+					" on fk_userid = userid ";
 
 			pstmt = conn.prepareStatement(selectSQL);
 			pstmt.setString(1, boardno);
@@ -302,14 +306,13 @@ public class BoardDAO implements InterBoardDAO {
 				cmtDTO.setCommentno(rs.getInt(1));
 				cmtDTO.setFk_boardno(rs.getString(2));
 				cmtDTO.setFk_userid(rs.getString(3));
-				
-				System.out.println(rs.getString(3) + " in BoardDAO ");
+				cmtDTO.setContents(rs.getString(4));
+				cmtDTO.setWriteday(rs.getString(5));
+				cmtDTO.setUsername(rs.getString(6));
+				System.out.println(rs.getString(6));
 				
 				comments.add(cmtDTO);
 			}
-			
-			System.out.println(comments.size());
-
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -77,17 +77,20 @@ public class BoardDTO {
 		this.member = member;
 	}
 	
-	public String listInfo() {	//	글번호	글제목	글쓴이	작성일자	조회수
-		String listInfo = boardno+"\t"+subject+"\t"+member.getName()+"\t"+writeday+"\t"+viewcount;
-			
-		return listInfo;
+	public String listInfo(int numOfComments) {	//	글번호	글제목	글쓴이	작성일자	조회수
+		if(numOfComments > 0 ) {
+			return boardno+"\t"+subject+" [" + numOfComments + "] \t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
+		} else {
+			return boardno+"\t"+subject+"\t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
+
+		}
 	}
 	
 	public void showPost() {
 		System.out.println("-------------------------------------------------");		
-		System.out.println("|[" + this.getBoardno() + "번 글]");
-		System.out.println("|\t▷글제목 : " + this.getSubject());
-		System.out.println("|\t▷글내용 : " + this.getContents());
+		System.out.println("[" + this.getBoardno() + "번 글]");
+		System.out.println("[글제목] : " + this.getSubject());
+		System.out.println("[글내용] : " + this.getContents());
 		System.out.println("-------------------------------------------------");		
 	}
 	

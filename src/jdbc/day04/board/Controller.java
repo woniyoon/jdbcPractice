@@ -149,10 +149,25 @@ public class Controller {
 		String boardNo = sc.nextLine();
 		
 		BoardDTO brdDTO = brdDAO.showContent(boardNo);
-		
+		List<CommentDTO> comments = brdDAO.fetchComments(boardNo);
+
 		if(brdDTO != null) {
 			
 			brdDTO.showPost();
+			// comments.size()로 댓글유무 판단  
+			if(comments.size() > 0) {		// 댓글 O 
+				System.out.println("[댓글]");
+				System.out.println("-------------------------------------------------");
+				System.out.println(" 내용 \t 작성자 \t 작성일자");
+				System.out.println("-------------------------------------------------");
+				for(int i=0;i<comments.size();i++) {
+					comments.get(i).showDetail();
+				}
+			} else {						// 댓글 X
+				System.out.println("[댓글]");
+				System.out.println("-------------------------------------------------");
+				System.out.println(">>	댓글 내용없음	<<");	
+			}
 			
 			if(!(brdDTO.getFk_userid().equals(loginUser.getUserid()))) {
 				brdDAO.incrementViewCount(boardNo);
@@ -299,6 +314,4 @@ public class Controller {
 	public void appExit() {
 		MyDBConnection.closeConnection();
 	}
-
-
 }
