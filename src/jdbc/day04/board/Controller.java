@@ -162,7 +162,7 @@ public class Controller {
 	}
 	
 
-	public void editPost(MemberDTO loginUser, Scanner sc) {
+	public int editPost(MemberDTO loginUser, Scanner sc) {
 		System.out.print("▷ 수정할 글번호 :");
 		String boardNo = sc.nextLine();
 		
@@ -171,7 +171,8 @@ public class Controller {
 		
 		
 		if(brdDTO == null) {
-			System.out.println("\n>>> 존재하지 않는 글번호입니다! <<< ");	
+									//  존재하지 않는 글
+			return -1;
 		} else {
 			if(brdDTO.getFk_userid().equals(loginUser.getUserid())) {
 				
@@ -202,20 +203,17 @@ public class Controller {
 							
 						}while(flag == -1);
 						
-						if (flag == 1) {
-							System.out.println(">> 수정 성공!! << ");
-						} else if(flag == 0){
-							System.out.println(">> 수정 취소!! << ");
-						}
+						
+						return flag;
 						
 					} else {
-						System.out.println(">> 수정 실패!! <<");
+						return -4;	// 수정 실패
 					}
 				} else {
-					System.out.println("\n>> 글암호가 올바르지 않습니다 << ");
+					return -3;		// 암호 틀림
 				}
 			} else {
-				System.out.println("\n>> 다른 사용자의 글은 수정불가 합니다!! << ");
+				return -2;			// 타인의 글 수정 X 
 			}
 		}
 	}

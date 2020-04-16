@@ -67,7 +67,22 @@ public class BoardView_Main {
 				
 				break;
 			case "5":	// 글수정
-				controller.editPost(loginUser, sc);
+				int editResult = controller.editPost(loginUser, sc);
+				
+				if (editResult == 0) {
+					System.out.println(">> 수정 취소!! << ");
+				} else if (editResult == -1) {
+					System.out.println("\n>>> 존재하지 않는 글번호입니다! <<< ");	
+				} else if (editResult == -2) {
+					System.out.println("\n>> 다른 사용자의 글은 수정불가 합니다!! << ");
+				} else if (editResult == -3) {
+					System.out.println("\n>> 글암호가 올바르지 않습니다 << ");
+				} else if (editResult == -4) {
+					System.out.println(">> 수정 실패!! <<");
+				} else if (editResult == 1) {
+					System.out.println(">> 수정 성공!! << ");
+				}
+				
 				break;
 			case "6":	// 글삭제
 				int n = controller.deletePost(loginUser, sc);
