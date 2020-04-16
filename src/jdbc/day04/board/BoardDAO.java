@@ -202,7 +202,7 @@ public class BoardDAO implements InterBoardDAO {
 	}
 
 	@Override
-	public int editSubAndConts(String newSubject, String newContents, String boardNo) {
+	public int editSubAndConts(Map<String, String> paraMap) {
 		int result = 0;
 		
 		try {
@@ -214,9 +214,9 @@ public class BoardDAO implements InterBoardDAO {
 								+ " where boardno = ?";
 			
 			pstmt = conn.prepareStatement(updateSQL);
-			pstmt.setString(1, newSubject);
-			pstmt.setString(2, newContents);
-			pstmt.setString(3, boardNo);
+			pstmt.setString(1, paraMap.get("subject"));
+			pstmt.setString(2, paraMap.get("contents"));
+			pstmt.setString(3, paraMap.get("boardno"));
 			
 			result = pstmt.executeUpdate();
 			

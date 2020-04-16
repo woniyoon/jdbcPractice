@@ -32,9 +32,7 @@ public class Controller {
 		result = mbrDAO.register(member);	
 		
 		if(result == 1) {
-			
-			Connection conn = MyDBConnection.getConn();
-			
+						
 			do {
 				System.out.println(">>> 회원가입을 정말로 하시겠습니까? [Y/N] ");
 				String answer = sc.nextLine();
@@ -118,28 +116,6 @@ public class Controller {
 		
 		return result;
 	}
-//	public int confirmCommit(String answer) {
-//		int result = 0;
-//		Connection conn = MyDBConnection.getConn();
-//		
-//		try {
-//			if("Y".equalsIgnoreCase(answer)) {
-//				conn.commit();
-//				result = 1;
-//			} else if("N".equalsIgnoreCase(answer)) {
-//				conn.rollback();
-//				result = 0;
-//			} else {
-//				System.out.println(">>> Y나 N 둘 중 하나만 입력해");
-//				result = -1;
-//			}
-//		} catch(SQLException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return result;
-//	}
-
 
 	public void fetchBoard() {
 		List<BoardDTO> boardList = brdDAO.fetchBoard();
@@ -174,11 +150,6 @@ public class Controller {
 		
 		if(brdDTO != null) {
 			
-//			System.out.println("---------------------[" +boardNo + "번 글]--------------------");
-//			System.out.println("|\t[글내용]\t\t\t[유저아이디]\t|");
-//			System.out.println("|\t" + brdDTO.getContents() + "\t\t| " + brdDTO.getFk_userid() + "\t|");
-//			System.out.println("-------------------------------------------------");
-
 			brdDTO.showPost();
 			
 			if(!(brdDTO.getFk_userid().equals(loginUser.getUserid()))) {
@@ -196,7 +167,7 @@ public class Controller {
 		String boardNo = sc.nextLine();
 		
 		BoardDTO brdDTO = brdDAO.editPost(boardNo);
-		
+		Map<String, String> paraMap = new HashMap<String, String>();
 		
 		
 		if(brdDTO == null) {
@@ -215,7 +186,11 @@ public class Controller {
 					System.out.print("▷ 글내용 : ");
 					String newContents = sc.nextLine();
 					
-					int result = brdDAO.editSubAndConts(newSubject, newContents, boardNo);
+					paraMap.put("subject", newSubject);
+					paraMap.put("contents", newContents);
+					paraMap.put("boardno", boardNo);
+					
+					int result = brdDAO.editSubAndConts(paraMap);
 					
 					if (result == 1) {
 						int flag = -1;

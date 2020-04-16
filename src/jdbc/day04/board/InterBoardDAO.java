@@ -15,7 +15,7 @@ public interface InterBoardDAO {
 
 	BoardDTO editPost(String boardNo);
 
-	int editSubAndConts(String newSubject, String newContents, String boardNo);
+	int editSubAndConts(Map<String, String> paraMap);
 
 	int deletePost(Map<String, String> paraMap);
 }
