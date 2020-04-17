@@ -106,6 +106,9 @@ public class BoardView_Main {
 					System.out.println(">> 삭제 성공!! << ");
 				}
 				break;
+			case "7":
+				controller.getStatisticsPerWeek();
+				break;
 			case "9":	// 로그아웃
 //				loginUser = null;
 				System.out.println(">> 로그아웃됐습니다. <<\n");

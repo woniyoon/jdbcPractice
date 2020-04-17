@@ -3,6 +3,7 @@ package jdbc.day04.board;
 import java.util.*;
 import java.sql.*;
 import jdbc.connection.MyDBConnection;
+import jdbc.util.MyUtil;
 
 public class Controller {
 
@@ -287,6 +288,45 @@ public class Controller {
 		result = brdDAO.writeComment(cmtDTO);
 		
 		return result;
+	}
+	
+
+	public void getStatisticsPerWeek() {
+		System.out.println("------- [최근 일주일간 일자별 게시글 작성건수] -------");
+		
+		String result = "전체\t";
+		for(int i=0; i<7; i++) {
+			result += MyUtil.getDate(-i) + "\t";
+		}
+			
+		System.out.println(result);
+		System.out.println("--------------------------------------------------------------------------------------------------------------------------");
+		
+		Map<String, Integer> resultMap = brdDAO.getStatisticsPerWeek();
+//		resultMap.get("TOTAL");
+//		resultMap.get("previous6");
+//		resultMap.get("previous5");
+//		resultMap.get("previous4");
+//		resultMap.get("previous3");
+//		resultMap.get("previous2");
+//		resultMap.get("previous1");
+//		resultMap.get("TODAY");
+		resultMap.values().forEach((r) -> {
+			System.out.print(r+"\t\t");
+		});
+		
+		System.out.println("\n");
+		resultMap.forEach((key, value)->{
+			
+			System.out.print(resultMap.get(key)+"\t\t");
+			System.out.print(value+"\t\t");
+
+		});
+		System.out.println("\n");
+
+		System.out.println("\n--------------------------------------------------------------------------------------------------------------------------\n");
+
+		
 	}
 
 	

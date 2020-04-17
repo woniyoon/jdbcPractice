@@ -323,4 +323,45 @@ public class BoardDAO implements InterBoardDAO {
 		return comments;
 	}
 
+	@Override
+	public Map<String, Integer> getStatisticsPerWeek() {
+		Map<String, Integer> resultMap = new HashMap<String, Integer>();
+		
+		try {
+			conn = MyDBConnection.getConn();
+
+			String selectSQL = "select count(*) as TOTAL\n"+
+							" , sum(decode(to_char(writeday, 'yyyy-mm-dd'), to_char(sysdate-6,'yyyy-mm-dd'), 1, 0))  as previous6\n"+
+							" , sum(decode(to_char(writeday, 'yyyy-mm-dd'), to_char(sysdate-5,'yyyy-mm-dd'), 1, 0))  as previous5\n"+
+							" , sum(decode(to_char(writeday, 'yyyy-mm-dd'), to_char(sysdate-4,'yyyy-mm-dd'), 1, 0))  as previous4\n"+
+							" , sum(decode(to_char(writeday, 'yyyy-mm-dd'), to_char(sysdate-3,'yyyy-mm-dd'), 1, 0))  as previous3\n"+
+							" , sum(decode(to_char(writeday, 'yyyy-mm-dd'), to_char(sysdate-2,'yyyy-mm-dd'), 1, 0))  as previous2\n"+
+							" , sum(decode(to_char(writeday, 'yyyy-mm-dd'), to_char(sysdate-1,'yyyy-mm-dd'), 1, 0))  as previous1\n"+
+							" , sum(decode(to_char(writeday, 'yyyy-mm-dd'), to_char(sysdate,'yyyy-mm-dd'), 1, 0))  as today\n"+
+							"from jdbc_board\n"+
+							"where (func_midnight(sysdate) - func_midnight(writeday)) < 7";
+
+			pstmt = conn.prepareStatement(selectSQL);
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				resultMap.put("TOTAL", rs.getInt(1));
+				resultMap.put("previous6", rs.getInt(2));
+				resultMap.put("previous5", rs.getInt(3));
+				resultMap.put("previous4", rs.getInt(4));
+				resultMap.put("previous3", rs.getInt(5));
+				resultMap.put("previous2", rs.getInt(6));
+				resultMap.put("previous1", rs.getInt(7));
+				resultMap.put("TODAY", rs.getInt(8));				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return resultMap;
+	}
+
 }
