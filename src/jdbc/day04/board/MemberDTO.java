@@ -76,4 +76,16 @@ public class MemberDTO {
 		this.status = status;
 	}
 	
+	
+	public String memberInfoForAdmin() {
+//		String hiddenPasswd = passwd;
+//		String result = String.format("%-"+passwd.length()+"s", hiddenPasswd.substring(0,4)).replace(' ', '*');
+		String active = (status == 1) ? "가입" : "탈퇴"; 
+		String memberId = userid.length() > 7 ? userid + "\t" : userid + "\t\t";
+		String passwd = this.passwd.length() > 7 ? this.passwd + "\t" : this.passwd + "\t\t";
+		return memberId + passwd + name + "\t" + mobile + "\t" + point + "\t" + registerday + "\t" + active;
+
+//		return memberId + result + "\t" + name + "\t" + mobile + "\t" + point + "\t" + registerday + "\t" + active;
+	}
+	
 }

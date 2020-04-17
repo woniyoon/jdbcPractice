@@ -115,10 +115,14 @@ public class BoardView_Main {
 				controller.getStatisticsThisMonth();
 				break;
 			case "9":	// 로그아웃
-//				loginUser = null;
 				System.out.println(">> 로그아웃됐습니다. <<\n");
 				break;
-
+			case "10":
+				if("admin".equals(loginUser.getUserid())) {
+					System.out.println(">> 모든 회원 정보 조회(관리자 전용 메뉴) <<");
+					controller.selectAllMember();
+					break;
+				}
 			default:
 				System.out.println(">> 메뉴에 없는 번호를 선택하셨습니다. <<");
 				break;

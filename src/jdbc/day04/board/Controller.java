@@ -353,7 +353,23 @@ public class Controller {
 
 	}
 
-	
+
+	public void selectAllMember() {
+		List<MemberDTO> memberList = mbrDAO.selectAllMember();
+		
+		if(memberList.size() > 0) {
+			System.out.println("---------------------------------------------------------------------------------------");
+			System.out.println(" 회원아이디\t 암호\t\t회원명\t    연락처\t포인트\t등록일자\t\t탈퇴유무 ");
+			System.out.println("---------------------------------------------------------------------------------------");
+			
+			for(MemberDTO member : memberList) {
+				System.out.println(member.memberInfoForAdmin());
+			}
+		
+			System.out.println("---------------------------------------------------------------------------------------\n");
+		}
+		
+	}
 	
 	// 자원반납
 	public void appExit() {
