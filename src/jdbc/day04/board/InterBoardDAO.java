@@ -23,5 +23,7 @@ public interface InterBoardDAO {
 
 	List<CommentDTO> fetchComments(String boardno);
 	
-	 Map<String, Integer> getStatisticsPerWeek();
+	Map<String, Integer> getStatisticsThisWeek();
+
+	List<Map<String,String>> getStatisticsThisMonth();
 }

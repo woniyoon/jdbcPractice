@@ -2,6 +2,8 @@ package jdbc.day04.board;
 
 import java.util.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+
 import jdbc.connection.MyDBConnection;
 import jdbc.util.MyUtil;
 
@@ -291,7 +293,7 @@ public class Controller {
 	}
 	
 
-	public void getStatisticsPerWeek() {
+	public void getStatisticsThisWeek() {
 		System.out.println("------- [최근 일주일간 일자별 게시글 작성건수] -------");
 		
 		String result = "전체\t";
@@ -302,33 +304,56 @@ public class Controller {
 		System.out.println(result);
 		System.out.println("--------------------------------------------------------------------------------------------------------------------------");
 		
-		Map<String, Integer> resultMap = brdDAO.getStatisticsPerWeek();
-//		resultMap.get("TOTAL");
-//		resultMap.get("previous6");
-//		resultMap.get("previous5");
-//		resultMap.get("previous4");
-//		resultMap.get("previous3");
-//		resultMap.get("previous2");
-//		resultMap.get("previous1");
-//		resultMap.get("TODAY");
+		Map<String, Integer> resultMap = brdDAO.getStatisticsThisWeek();
+
 		resultMap.values().forEach((r) -> {
 			System.out.print(r+"\t\t");
 		});
 		
-		System.out.println("\n");
-		resultMap.forEach((key, value)->{
-			
-			System.out.print(resultMap.get(key)+"\t\t");
-			System.out.print(value+"\t\t");
-
-		});
-		System.out.println("\n");
+//		System.out.println("\n");
+//		resultMap.forEach((key, value)->{
+//			
+//			System.out.print(resultMap.get(key)+"\t\t");
+//			System.out.print(value+"\t\t");
+//
+//		});
+//		System.out.println("\n");
 
 		System.out.println("\n--------------------------------------------------------------------------------------------------------------------------\n");
 
-		
 	}
 
+	
+	// 이번달 일자별 게시글 작성건수
+	public void getStatisticsThisMonth() {
+		Calendar currentDate = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월");
+		String currentMonth = dateFormat.format(currentDate.getTime());
+		
+		List<Map<String,String>> mapList = brdDAO.getStatisticsThisMonth();
+		
+		System.out.println("------------- [" + currentMonth +" 일자별 게시글 작성건수] -------------");
+		System.out.println(" 작성일자\t작성건수");
+		System.out.println("\n---------------------------------------------------------------------\n");
+
+		if(mapList.size() > 0) {
+			StringBuilder sb = new StringBuilder();
+			
+			for(Map<String, String> map : mapList) {
+				 sb.append(map.get("WRITEDAY") + "\t" + map.get("CNT") + "\n");
+			}
+			
+			System.out.println(sb.toString());
+			
+		} else {
+			System.out.println("		작성된 게시글이 없습니다.			");
+		}
+
+		System.out.println("\n---------------------------------------------------------------------\n");
+
+	}
+
+	
 	
 	// 자원반납
 	public void appExit() {

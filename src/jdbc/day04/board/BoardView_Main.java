@@ -107,7 +107,10 @@ public class BoardView_Main {
 				}
 				break;
 			case "7":
-				controller.getStatisticsPerWeek();
+				controller.getStatisticsThisWeek();
+				break;
+			case "8":
+				controller.getStatisticsThisMonth();
 				break;
 			case "9":	// 로그아웃
 //				loginUser = null;

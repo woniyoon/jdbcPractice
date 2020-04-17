@@ -324,7 +324,7 @@ public class BoardDAO implements InterBoardDAO {
 	}
 
 	@Override
-	public Map<String, Integer> getStatisticsPerWeek() {
+	public Map<String, Integer> getStatisticsThisWeek() {
 		Map<String, Integer> resultMap = new HashMap<String, Integer>();
 		
 		try {
@@ -362,6 +362,38 @@ public class BoardDAO implements InterBoardDAO {
 		}
 		
 		return resultMap;
+	}
+
+	@Override
+	public List<Map<String,String>> getStatisticsThisMonth() {
+		List<Map<String,String>> mapList = new ArrayList<Map<String, String>>();
+		 
+			try {
+				conn = MyDBConnection.getConn();
+
+				String selectSQL = " select decode( grouping(to_char(writeday, 'yyyy-MM-dd')), 0, to_char(writeday, 'yyyy-MM-dd'), 1, '합계') as writeday,\n "+
+						"       count(*) as cnt\n "+
+						" from jdbc_board\n "+
+						" where to_char(writeday, 'yyyy-MM') = to_char(sysdate, 'yyyy-MM')\n "+
+						" group by rollup(to_char(writeday, 'yyyy-MM-dd')) ";
+
+				pstmt = conn.prepareStatement(selectSQL);
+				rs = pstmt.executeQuery();
+								
+				while(rs.next()) {
+					Map<String, String> map = new HashMap<String, String>();	
+					map.put("WRITEDAY", rs.getString(1));
+					map.put("CNT", rs.getString(2));
+					mapList.add(map);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+		 
+		return mapList;
 	}
 
 }
