@@ -14,10 +14,13 @@ public class BoardDTO {
 	
 	// 게시판에 있는 글들을 보여주는 메소드
 	public String listInfo(int numOfComments) {	//	글번호	글제목	글쓴이	작성일자	조회수
+		
+		String newSubject = subject.length() < 10 ? subject : subject.substring(0,10) + "...";
+		
 		if(numOfComments > 0 ) {
-			return boardno+"\t"+subject+" [" + numOfComments + "] \t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
+			return boardno+"\t"+ newSubject +" [" + numOfComments + "] \t\t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
 		} else {
-			return boardno+"\t"+subject+"\t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
+			return boardno+"\t"+newSubject+"\t\t"+member.getName()+"\t"+writeday+"\t"+viewcount;			
 		}
 	}
 	
