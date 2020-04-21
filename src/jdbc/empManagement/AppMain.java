@@ -1,6 +1,6 @@
 package jdbc.empManagement;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class AppMain {
 	
@@ -17,10 +17,27 @@ public class AppMain {
 			
 			switch (option) {
 			case "1":
+				ArrayList<EmployeeDTO> empList = controller.getEmps();
+				System.out.println("-------------------------------------------------");
+				System.out.println("사원번호\t부서명\t\t사원명\t\t생년월일");
 				
+				for(EmployeeDTO emp : empList) {
+					System.out.println(emp.showEmployeeInfo());
+				}
+				
+				System.out.println("-------------------------------------------------\n");
 				break;
-			case "2":
 				
+			case "2":
+				ArrayList<EmployeeDTO> contactsList = controller.getContacts();
+				
+				System.out.println("-------------------------------------------------");
+				System.out.println(" 부서명\t\t사원명\t\t전화번호\t이메일");
+				for(EmployeeDTO emp : contactsList) {
+					System.out.println(emp.showContacts());
+				}
+				System.out.println("-------------------------------------------------\n");
+
 				break;
 			case "3":
 				
@@ -29,6 +46,9 @@ public class AppMain {
 				
 				break;
 			case "5":
+				
+				break;
+			case "6":
 				
 				break;
 			case "0":
@@ -49,14 +69,15 @@ public class AppMain {
 	
 	public static void showMainMenu() {
 		System.out.println("----------메뉴----------");
-		System.out.println(" 1. 사원 연락망 ");
-		System.out.println(" 2. 행사 ");
-		System.out.println(" 3. 사원별 직속상사 ");
+		System.out.println(" 1. 사원 목록 ");
+		System.out.println(" 2. 사원 연락망 ");
+		System.out.println(" 3. 행사 ");
+		System.out.println(" 4. 사원별 직속상사 ");
 		if(administrator == null) {
-			System.out.println(" 4. HR 전용 ");			
+			System.out.println(" 5. HR 전용 ");			
 		} else {
-			System.out.println(" 4. 사원별 급여 확인 ");
-			System.out.println(" 5. 퇴직금 확인 ");
+			System.out.println(" 5. 사원별 급여 확인 ");
+			System.out.println(" 6. 퇴직금 확인 ");
 		}
 		System.out.println(" 0. 시스템 종료 ");
 	}

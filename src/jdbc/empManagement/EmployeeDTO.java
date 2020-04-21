@@ -60,5 +60,17 @@ public class EmployeeDTO {
 	public void setSalaryInfo(SalaryDTO salaryInfo) {
 		this.salaryInfo = salaryInfo;
 	}
+	
+	public String showEmployeeInfo() {
+		String fullName = firstName + " " + lastName + "\t\t" ;
+		
+		return empID +"\t" + departmentInfo.getDepartment()+ "\t" + fullName + birthDate; 
+	}
+	
+	public String showContacts() {
+		String fullName = firstName + " " + lastName + "\t\t" ;
+
+		return departmentInfo.getDepartment()+ "\t" + fullName + "\t" + email + "\t" + mobile; 
+	}
 
 }
