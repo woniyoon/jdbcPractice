@@ -107,9 +107,9 @@ public class EmpDAO implements InterEmpDAO {
 				deptDTO.setDepartment(rs.getString(1));
 				
 				empDTO.setFirstName(rs.getString(2));
-				empDTO.setLastName(rs.getString(2));
-				empDTO.setEmail(rs.getString(3));
-				empDTO.setMobile(rs.getString(4));
+				empDTO.setLastName(rs.getString(3));
+				empDTO.setEmail(rs.getString(4));
+				empDTO.setMobile(rs.getString(5));
 				empDTO.setDepartmentInfo(deptDTO);
 				contactsList.add(empDTO);
 			}
