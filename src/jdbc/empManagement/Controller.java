@@ -1,6 +1,6 @@
 package jdbc.empManagement;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Controller {
 
@@ -27,5 +27,9 @@ public class Controller {
 	
 	public ArrayList<EmployeeDTO> getLoyalEmps() {
 		return empDAO.getLoyalEmps();
+	}
+
+	public EmployeeDTO getSupervisor(HashMap<String, String> paraMap) {
+		return empDAO.getSupervisor(paraMap);
 	}
 }

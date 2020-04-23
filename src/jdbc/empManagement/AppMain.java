@@ -10,7 +10,8 @@ public class AppMain {
 
 	public static void main(String[] args) {
 		boolean isOn = true;
-		
+		HashMap<String, String> paraMap = new HashMap<String, String>();
+
 		do {
 			showMainMenu();
 			String option = sc.nextLine();
@@ -61,6 +62,26 @@ public class AppMain {
 				
 				break;
 			case "4":
+				System.out.print("▷ 조회를 원하는 사원의 이름을 입력하세요 : ");
+				String first_name = sc.nextLine();
+				System.out.print("▷ 조회를 원하는 사원의 성을 입력하세요 : ");
+				String last_name = sc.nextLine();
+				
+				if("Steven".equalsIgnoreCase(first_name) && "King".equalsIgnoreCase(last_name)) {
+					System.out.println(">>> Steven King의 직속 사수는 존재하지 않습니다. ");
+				} else {
+					paraMap.put("first_name", first_name);
+					paraMap.put("last_name", last_name);
+					
+					EmployeeDTO supervisor = controller.getSupervisor(paraMap);					
+
+					if(supervisor != null) {
+						System.out.println("------------" + first_name + " " + last_name + "의 직속 사수 ------------");
+					 	System.out.println(supervisor.showSupervisor());
+					} else {
+						System.out.println(">>> " + first_name + " " + last_name + "는 존재하지 않는 사원입니다.");
+					}
+				}
 				
 				break;
 			case "5":

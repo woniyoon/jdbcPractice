@@ -3,7 +3,7 @@ package jdbc.empManagement;
 import jdbc.connection.MyDBConnection;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class EmpDAO implements InterEmpDAO {
 	
@@ -209,6 +209,51 @@ public class EmpDAO implements InterEmpDAO {
 		}
 		
 		return loyalEmps;
+	}
+
+
+	@Override
+	public EmployeeDTO getSupervisor(HashMap<String, String> paraMap) {
+		EmployeeDTO supervisor = null;
+		
+		try {
+			
+			conn = MyDBConnection.getConn();
+			
+			String selectSQL = "select D.department_name,\n"+
+					"       E.first_name,\n"+
+					"       E.last_name\n"+
+					"from emp E, emp E2, dept D\n"+
+					"where E.employee_id = E2.manager_id \n"+
+					"      AND E2.department_id = D.department_ID \n"+
+					"      AND lower(?) = lower(E2.first_name)\n"+
+					"      AND lower(?) = lower(E2.last_name)";
+			
+			
+			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, paraMap.get("first_name"));
+			pstmt.setString(2, paraMap.get("last_name"));
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				supervisor = new EmployeeDTO();
+				DepartmentDTO deptDTO = new DepartmentDTO();
+				deptDTO.setDepartment(rs.getString(1));
+				
+				supervisor.setFirstName(rs.getString(2));
+				supervisor.setLastName(rs.getString(3));
+				supervisor.setFullName(rs.getString(2), rs.getString(3));
+				supervisor.setDepartmentInfo(deptDTO);		
+			}
+			
+			
+		} catch(SQLException e){			
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return supervisor;
 	}
 }
 

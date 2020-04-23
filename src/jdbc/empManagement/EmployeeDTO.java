@@ -93,4 +93,9 @@ public class EmployeeDTO {
 		return hiredDate + "\t" + departmentInfo.getDepartment() + "\t" + fullName;
 	}
 
+	public String showSupervisor() {
+		String supervisorInfo = "부서 : " + departmentInfo.getDepartment() +"\n성함 : " + fullName + "\n";
+		
+		return supervisorInfo;
+	}
 }
