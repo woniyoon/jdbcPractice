@@ -7,25 +7,21 @@ public class Controller {
 	private static Controller controller = new Controller();
 	private static InterEmpDAO empDAO = new EmpDAO();
 	
-	private Controller() {
-		
-	}
+	private Controller() {}
 
 	public static Controller getController (){
 		return controller;
 	}
 
-	public ArrayList<EmployeeDTO> getEmps() {
-		ArrayList<EmployeeDTO> empList = null;
-		
-		empList = empDAO.getEmps();
-		return empList;
+	public ArrayList<EmployeeDTO> getEmps() {		
+		return empDAO.getEmps();
 	}
 
-	public ArrayList<EmployeeDTO> getContacts() {
-		ArrayList<EmployeeDTO> contactsList = null;
-		
-		contactsList = empDAO.getContacts();
-		return contactsList;
+	public ArrayList<EmployeeDTO> getContacts() {		
+		return empDAO.getContacts();
+	}
+
+	public ArrayList<EmployeeDTO> getBPeople() {
+		return empDAO.getBPeople();
 	}
 }

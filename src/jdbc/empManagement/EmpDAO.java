@@ -84,19 +84,62 @@ public class EmpDAO implements InterEmpDAO {
 
 	@Override
 	public ArrayList<EmployeeDTO> getContacts() {
-	ArrayList<EmployeeDTO> contactsList = new ArrayList<EmployeeDTO>();
+		ArrayList<EmployeeDTO> contactsList = new ArrayList<EmployeeDTO>();
+			
+			try {
+				
+				conn = MyDBConnection.getConn();
+				
+				String selectSQL = "        select D.department_name\n"+
+						"              ,E.first_name\n"+ 
+						"			   ,E.last_name\n"+
+						"              ,E.email\n"+
+						"              ,E.phone_number\n"+
+						"        from emp E, dept D\n"+
+						"        where E.department_id = D.department_id ";
+				
+				pstmt = conn.prepareStatement(selectSQL);
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					EmployeeDTO empDTO = new EmployeeDTO();
+					DepartmentDTO deptDTO = new DepartmentDTO();
+					deptDTO.setDepartment(rs.getString(1));
+					
+					empDTO.setFirstName(rs.getString(2));
+					empDTO.setLastName(rs.getString(3));
+					empDTO.setEmail(rs.getString(4));
+					empDTO.setMobile(rs.getString(5));
+					empDTO.setDepartmentInfo(deptDTO);
+					contactsList.add(empDTO);
+				}
+	
+			} catch(SQLException e){			
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+		
+		return contactsList;	
+	}
+
+
+	@Override
+	public ArrayList<EmployeeDTO> getBPeople() {
+		ArrayList<EmployeeDTO> bPeople = new ArrayList<EmployeeDTO>();
 		
 		try {
 			
 			conn = MyDBConnection.getConn();
 			
-			String selectSQL = "        select D.department_name\n"+
-					"              ,E.first_name\n"+ 
-					"			   ,E.last_name\n"+
-					"              ,E.email\n"+
-					"              ,E.phone_number\n"+
-					"        from emp E, dept D\n"+
-					"        where E.department_id = D.department_id ";
+			String selectSQL = "select D.department_name,\n"+
+					"       E.first_name,\n"+
+					"       E.last_name,\n"+
+					"       to_number((substr(E.jubun, 3, 2))) || '월' || substr(E.jubun, 5, 2) || '일' as birthday\n"+
+					"from emp E, dept D\n"+
+					"where substr(jubun, 3, 2) = extract(month from sysdate) AND\n"+
+					"      E.department_id = D.department_id" + 
+					"order by birthday";
 			
 			pstmt = conn.prepareStatement(selectSQL);
 			rs = pstmt.executeQuery();
@@ -108,10 +151,9 @@ public class EmpDAO implements InterEmpDAO {
 				
 				empDTO.setFirstName(rs.getString(2));
 				empDTO.setLastName(rs.getString(3));
-				empDTO.setEmail(rs.getString(4));
-				empDTO.setMobile(rs.getString(5));
+				empDTO.setBirthDate(rs.getString(4));
 				empDTO.setDepartmentInfo(deptDTO);
-				contactsList.add(empDTO);
+				bPeople.add(empDTO);
 			}
 
 		} catch(SQLException e){			
@@ -120,10 +162,11 @@ public class EmpDAO implements InterEmpDAO {
 			close();
 		}
 		
-		return contactsList;	
+		return bPeople;
 	}
-
 }
+
+
 
 
 

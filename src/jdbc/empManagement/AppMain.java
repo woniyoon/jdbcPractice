@@ -18,28 +18,39 @@ public class AppMain {
 			switch (option) {
 			case "1":
 				ArrayList<EmployeeDTO> empList = controller.getEmps();
-				System.out.println("-------------------------------------------------");
+				System.out.println("--------------------------------------------------");
 				System.out.println("사원번호\t부서명\t\t사원명\t\t생년월일");
 				
 				for(EmployeeDTO emp : empList) {
 					System.out.println(emp.showEmployeeInfo());
 				}
 				
-				System.out.println("-------------------------------------------------\n");
+				System.out.println("--------------------------------------------------\n");
 				break;
 				
 			case "2":
 				ArrayList<EmployeeDTO> contactsList = controller.getContacts();
 				
-				System.out.println("-------------------------------------------------");
+				System.out.println("--------------------------------------------------");
 				System.out.println(" 부서명\t\t사원명\t\t전화번호\t이메일");
 				for(EmployeeDTO emp : contactsList) {
 					System.out.println(emp.showContacts());
 				}
-				System.out.println("-------------------------------------------------\n");
+				System.out.println("--------------------------------------------------\n");
 
 				break;
 			case "3":
+				ArrayList<EmployeeDTO> bPeople = controller.getBPeople();
+				
+				System.out.println("---------------------이번달의 생일자---------------------");
+				for(EmployeeDTO emp : bPeople) {
+					System.out.println(emp.showBPeople());
+				}
+				
+				System.out.println("--------------------------------------------------\n");
+
+				
+				System.out.println("---------------------이달의 행사---------------------");
 				
 				break;
 			case "4":
@@ -71,7 +82,7 @@ public class AppMain {
 		System.out.println("----------메뉴----------");
 		System.out.println(" 1. 사원 목록 ");
 		System.out.println(" 2. 사원 연락망 ");
-		System.out.println(" 3. 행사 ");
+		System.out.println(" 3. 이 달의 행사 ");
 		System.out.println(" 4. 사원별 직속상사 ");
 		if(administrator == null) {
 			System.out.println(" 5. HR 전용 ");			

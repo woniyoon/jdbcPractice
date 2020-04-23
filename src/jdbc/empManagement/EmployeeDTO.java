@@ -8,8 +8,10 @@ public class EmployeeDTO {
 	private String email;
 	private String mobile;
 	private String birthDate;
+	private String hiredDate;
 	private DepartmentDTO departmentInfo;
 	private SalaryDTO salaryInfo;
+	private String fullName = firstName + " " + lastName;
 	
 	
 	public int getEmpID() {
@@ -60,6 +62,13 @@ public class EmployeeDTO {
 	public void setSalaryInfo(SalaryDTO salaryInfo) {
 		this.salaryInfo = salaryInfo;
 	}
+	public String getHiredDate() {
+		return hiredDate;
+	}
+	public void setHiredDate(String hiredDate) {
+		this.hiredDate = hiredDate;
+	}
+	
 	
 	public String showEmployeeInfo() {
 		String fullName = firstName + " " + lastName + "\t\t" ;
@@ -71,6 +80,10 @@ public class EmployeeDTO {
 		String fullName = firstName + " " + lastName + "\t\t" ;
 
 		return departmentInfo.getDepartment()+ "\t" + fullName + "\t" + email + "\t" + mobile; 
+	}
+	
+	public String showBPeople() {
+		return birthDate + "\t" + departmentInfo.getDepartment() + "\t" + fullName;
 	}
 
 }
