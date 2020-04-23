@@ -11,7 +11,7 @@ public class EmployeeDTO {
 	private String hiredDate;
 	private DepartmentDTO departmentInfo;
 	private SalaryDTO salaryInfo;
-	private String fullName = firstName + " " + lastName;
+	private String fullName;
 	
 	
 	public int getEmpID() {
@@ -68,22 +68,29 @@ public class EmployeeDTO {
 	public void setHiredDate(String hiredDate) {
 		this.hiredDate = hiredDate;
 	}
+	public void setFullName(String firstName, String lastName) {
+		this.fullName = firstName + " " + lastName;
+	}
 	
 	
 	public String showEmployeeInfo() {
-		String fullName = firstName + " " + lastName + "\t\t" ;
+//		String fullName = firstName + " " + lastName + "\t\t" ;
 		
 		return empID +"\t" + departmentInfo.getDepartment()+ "\t" + fullName + birthDate; 
 	}
 	
 	public String showContacts() {
-		String fullName = firstName + " " + lastName + "\t\t" ;
+//		String fullName = firstName + " " + lastName + "\t\t" ;
 
 		return departmentInfo.getDepartment()+ "\t" + fullName + "\t" + email + "\t" + mobile; 
 	}
 	
 	public String showBPeople() {
 		return birthDate + "\t" + departmentInfo.getDepartment() + "\t" + fullName;
+	}
+	
+	public String showLoyalEmps() {
+		return hiredDate + "\t" + departmentInfo.getDepartment() + "\t" + fullName;
 	}
 
 }

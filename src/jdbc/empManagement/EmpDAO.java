@@ -65,6 +65,7 @@ public class EmpDAO implements InterEmpDAO {
 				empDTO.setEmpID(rs.getInt(1));
 				empDTO.setFirstName(rs.getString(2));
 				empDTO.setLastName(rs.getString(3));
+				empDTO.setFullName(rs.getString(2), rs.getString(3));
 				empDTO.setEmail(rs.getString(4));
 				empDTO.setMobile(rs.getString(5));
 				empDTO.setBirthDate(rs.getString(6));
@@ -108,6 +109,7 @@ public class EmpDAO implements InterEmpDAO {
 					
 					empDTO.setFirstName(rs.getString(2));
 					empDTO.setLastName(rs.getString(3));
+					empDTO.setFullName(rs.getString(2), rs.getString(3));
 					empDTO.setEmail(rs.getString(4));
 					empDTO.setMobile(rs.getString(5));
 					empDTO.setDepartmentInfo(deptDTO);
@@ -138,7 +140,7 @@ public class EmpDAO implements InterEmpDAO {
 					"       to_number((substr(E.jubun, 3, 2))) || '월' || substr(E.jubun, 5, 2) || '일' as birthday\n"+
 					"from emp E, dept D\n"+
 					"where substr(jubun, 3, 2) = extract(month from sysdate) AND\n"+
-					"      E.department_id = D.department_id" + 
+					"      E.department_id = D.department_id\n"+
 					"order by birthday";
 			
 			pstmt = conn.prepareStatement(selectSQL);
@@ -151,6 +153,7 @@ public class EmpDAO implements InterEmpDAO {
 				
 				empDTO.setFirstName(rs.getString(2));
 				empDTO.setLastName(rs.getString(3));
+				empDTO.setFullName(rs.getString(2), rs.getString(3));
 				empDTO.setBirthDate(rs.getString(4));
 				empDTO.setDepartmentInfo(deptDTO);
 				bPeople.add(empDTO);
@@ -163,6 +166,49 @@ public class EmpDAO implements InterEmpDAO {
 		}
 		
 		return bPeople;
+	}
+	
+
+	@Override
+	public ArrayList<EmployeeDTO> getLoyalEmps() {
+		ArrayList<EmployeeDTO> loyalEmps = new ArrayList<EmployeeDTO>();
+		
+		try {
+			
+			conn = MyDBConnection.getConn();
+			
+			String selectSQL = "select D.department_name,\n"+
+					"       E.first_name,\n"+
+					"       E.last_name,\n"+
+					"       extract(month from hire_date) || '월' || extract(day from hire_date) || '일'\n"+
+					"from emp E, dept D\n"+
+					"where extract(month from hire_date) = extract(month from sysdate) AND\n"+
+					"      E.department_id = D.department_id\n"+
+					"order by 4 desc";
+			
+			pstmt = conn.prepareStatement(selectSQL);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				EmployeeDTO empDTO = new EmployeeDTO();
+				DepartmentDTO deptDTO = new DepartmentDTO();
+				deptDTO.setDepartment(rs.getString(1));
+				
+				empDTO.setFirstName(rs.getString(2));
+				empDTO.setLastName(rs.getString(3));
+				empDTO.setFullName(rs.getString(2), rs.getString(3));
+				empDTO.setHiredDate(rs.getString(4));
+				empDTO.setDepartmentInfo(deptDTO);
+				loyalEmps.add(empDTO);
+			}
+
+		} catch(SQLException e){			
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return loyalEmps;
 	}
 }
 

@@ -41,16 +41,23 @@ public class AppMain {
 				break;
 			case "3":
 				ArrayList<EmployeeDTO> bPeople = controller.getBPeople();
+				ArrayList<EmployeeDTO> loyalEmps = controller.getLoyalEmps();
 				
-				System.out.println("---------------------이번달의 생일자---------------------");
+				System.out.println("---------------------🎉이번달의 생일자🎉---------------------");
+				
 				for(EmployeeDTO emp : bPeople) {
 					System.out.println(emp.showBPeople());
 				}
 				
-				System.out.println("--------------------------------------------------\n");
-
+				System.out.println("\n--------------------------------------------------\n");
 				
-				System.out.println("---------------------이달의 행사---------------------");
+				System.out.println("---------------------🎉입사 기념일🎉---------------------");
+				
+				for(EmployeeDTO emp : loyalEmps) {
+					System.out.println(emp.showLoyalEmps());
+				}
+				
+				System.out.println("\n--------------------------------------------------\n");
 				
 				break;
 			case "4":

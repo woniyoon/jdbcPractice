@@ -24,4 +24,8 @@ public class Controller {
 	public ArrayList<EmployeeDTO> getBPeople() {
 		return empDAO.getBPeople();
 	}
+	
+	public ArrayList<EmployeeDTO> getLoyalEmps() {
+		return empDAO.getLoyalEmps();
+	}
 }
