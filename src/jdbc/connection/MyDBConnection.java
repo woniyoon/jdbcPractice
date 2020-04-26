@@ -6,7 +6,7 @@ public class MyDBConnection {
 		// 1. 해당 클래스 타입의 private static 변수 만듦
 		private static Connection conn = null;
 
-		private final static String URL = "jdbc:oracle:thin:@192.168.150.144:1521:xe ";
+		private final static String URL = "jdbc:oracle:thin:@127.0.0.1:1521:xe ";
 		private final static String USER = "myorauser";
 		private final static String PASSWORD = "eclass";
 		
