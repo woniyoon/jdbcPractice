@@ -255,6 +255,56 @@ public class EmpDAO implements InterEmpDAO {
 		
 		return supervisor;
 	}
+
+
+	@Override
+	public AdminDTO adminLogin(HashMap<String, String> adminMap) {
+		AdminDTO admin = null;
+
+		try {
+			
+			conn = MyDBConnection.getConn();
+			
+
+			String selectSQL = "select D.department_name\n"+
+					"      ,D.department_id\n"+
+					"	  ,E.first_name\n"+
+					"      ,E.last_name\n"+
+					"	  ,E.email\n"+
+					"	  ,E.employee_id\n"+
+					"from emp E, dept D\n"+
+					"where lower(E.email) = lower(?) AND E.employee_id = ? AND E.department_id = D.department_id";
+			
+			
+			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, adminMap.get("adminID"));
+			pstmt.setString(2, adminMap.get("password"));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				admin = new AdminDTO();
+				DepartmentDTO deptDTO = new DepartmentDTO();
+				deptDTO.setDepartment(rs.getString(1));
+				deptDTO.setDepartmentID(rs.getInt(2));
+				
+				admin.setFirstName(rs.getString(3));
+				admin.setLastName(rs.getString(4));
+				admin.setFullName(rs.getString(3), rs.getString(4));
+				admin.setEmail(rs.getString(5));
+				admin.setEmpID(rs.getInt(6));
+				admin.setDepartmentInfo(deptDTO);		
+			}
+			
+			
+		} catch(SQLException e){			
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return admin;
+	}
 }
 
 

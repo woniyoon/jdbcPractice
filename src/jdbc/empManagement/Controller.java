@@ -32,4 +32,8 @@ public class Controller {
 	public EmployeeDTO getSupervisor(HashMap<String, String> paraMap) {
 		return empDAO.getSupervisor(paraMap);
 	}
+
+	public AdminDTO adminLogin(HashMap<String, String> adminMap) {		
+		return empDAO.adminLogin(adminMap);
+	}
 }

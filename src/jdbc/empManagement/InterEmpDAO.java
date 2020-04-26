@@ -8,4 +8,5 @@ public interface InterEmpDAO {
 	public ArrayList<EmployeeDTO> getBPeople();
 	public ArrayList<EmployeeDTO> getLoyalEmps();
 	public EmployeeDTO getSupervisor(HashMap<String, String> name);
+	public AdminDTO adminLogin(HashMap<String, String> adminMap);
 }

@@ -68,7 +68,7 @@ public class AppMain {
 				String last_name = sc.nextLine();
 				
 				if("Steven".equalsIgnoreCase(first_name) && "King".equalsIgnoreCase(last_name)) {
-					System.out.println(">>> Steven King의 직속 사수는 존재하지 않습니다. ");
+					System.out.println(">>> Steven King의 직속 사수는 존재하지 않습니다. \n");
 				} else {
 					paraMap.put("first_name", first_name);
 					paraMap.put("last_name", last_name);
@@ -78,24 +78,46 @@ public class AppMain {
 					if(supervisor != null) {
 						System.out.println("------------" + first_name + " " + last_name + "의 직속 사수 ------------");
 					 	System.out.println(supervisor.showSupervisor());
+					 	System.out.println(" ");
 					} else {
-						System.out.println(">>> " + first_name + " " + last_name + "는 존재하지 않는 사원입니다.");
+						System.out.println(">>> " + first_name + " " + last_name + "는 존재하지 않는 사원입니다.\n");
 					}
 				}
 				
 				break;
 			case "5":
+				System.out.print("▷ 관리자 아이디 : ");
+				String adminID = sc.nextLine();
+				System.out.print("▷ 비밀번호 : ");
+				String password = sc.nextLine();
+				HashMap<String, String> adminMap = new HashMap<String, String>();
+				
+				adminMap.put("adminID", adminID);
+				adminMap.put("password", password);
+				
+				AdminDTO admin = controller.adminLogin(adminMap);
+			
+				if(admin == null) {
+					System.out.println(">>> 관리자만 접근 권한이 있습니다!\n");
+				} else {
+					administrator = admin;
+					System.out.println(">>> " + admin.getFirstName() + " 관리자님 로그인 성공!\n");
+				}
 				
 				break;
 			case "6":
 				
+				break;
+			case "7":
+					administrator = null;
+					System.out.println(">>> 로그아웃 됐습니다! \n");
 				break;
 			case "0":
 				isOn = false;
 				break;
 
 			default:
-				System.out.println(">>> 메뉴에 없는 번호를 선택했습니다. ");
+				System.out.println(">>> 메뉴에 없는 번호를 선택했습니다. \n");
 				break;
 			}
 			
@@ -117,6 +139,7 @@ public class AppMain {
 		} else {
 			System.out.println(" 5. 사원별 급여 확인 ");
 			System.out.println(" 6. 퇴직금 확인 ");
+			System.out.println(" 7. 로그아웃");
 		}
 		System.out.println(" 0. 시스템 종료 ");
 	}

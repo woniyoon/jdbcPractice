@@ -5,8 +5,10 @@ public class AdminDTO {
 	private int empID;
 	private String firstName;
 	private String lastName;
+	private String fullName;
 	private String passwd;
 	private String email;	
+	private DepartmentDTO departmentInfo;
 	
 	public int getEmpID() {
 		return empID;
@@ -29,12 +31,26 @@ public class AdminDTO {
 	public String getEmail() {
 		return email;
 	}
-	public void setPasswd(String passwd) {
-		this.passwd = passwd;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getPasswd() {
 		return passwd;
 	}
-	
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
+	}
+	public void setFullName(String fisrtName, String lastName) {
+		this.fullName = firstName + " " + lastName;
+	}
+	public String getFullName() {
+		return this.fullName;
+	}
+	public void setDepartmentInfo(DepartmentDTO departmentInfo) {
+		this.departmentInfo = departmentInfo;
+	}
+	public DepartmentDTO getDepartmentInfo() {
+		return this.departmentInfo;
+	}
 
 }
