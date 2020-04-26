@@ -1,5 +1,7 @@
 package jdbc.day04.board;
 
+import java.sql.Date;
+
 public class MemberDTO {
 
 	private int userseq; 
@@ -11,6 +13,16 @@ public class MemberDTO {
 	private String registerday;
 	private int status;
 	
+	private Date regDate;
+	
+	
+	public Date getRegDate() {
+		return regDate;
+	}
+	
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
+	}
 	
 	public int getUserseq() {
 		return userseq;

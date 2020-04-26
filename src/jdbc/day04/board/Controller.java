@@ -62,6 +62,8 @@ public class Controller {
 		
 		member = mbrDAO.login(paraMap);
 		
+		System.out.println(member.getRegDate());
+		
 		return member;
 	}
 

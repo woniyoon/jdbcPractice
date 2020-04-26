@@ -70,7 +70,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			conn = MyDBConnection.getConn();
 			
-			String sql = "select userseq, userid, passwd, name, mobile, point, to_char(registerday, 'yyyy-mm-dd') AS registerday, status\n"+
+			String sql = "select userseq, userid, passwd, name, mobile, point, to_char(registerday, 'yyyy-mm-dd'), status, registerday\n"+
 					"from jdbc_member\n"+
 					"where status = 1 AND userid = ? AND passwd = ? ";
 
@@ -92,6 +92,8 @@ public class MemberDAO implements InterMemberDAO {
 				member.setPoint(rs.getInt(6));
 				member.setRegisterday(rs.getString(7));
 				member.setStatus(rs.getInt(8));
+				
+				member.setRegDate(rs.getDate(9));
 				
 			}
 
