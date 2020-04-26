@@ -36,4 +36,8 @@ public class Controller {
 	public AdminDTO adminLogin(HashMap<String, String> adminMap) {		
 		return empDAO.adminLogin(adminMap);
 	}
+
+	public EmployeeDTO inquireSalary(String emp_firstName, String emp_lastName) {
+		return empDAO.inquireSalary(emp_firstName, emp_lastName);
+	}
 }

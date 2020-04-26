@@ -305,6 +305,59 @@ public class EmpDAO implements InterEmpDAO {
 		
 		return admin;
 	}
+
+
+	@Override
+	public EmployeeDTO inquireSalary(String emp_firstName, String emp_lastName) {
+		EmployeeDTO emp = null;
+		
+		
+		try {
+			conn = MyDBConnection.getConn();
+			
+			String selectSQL = "select *\n"+
+					"from\n"+
+					"(select nvl(D.department_name, '인턴')   as department_name\n"+
+					"      ,nvl(D.department_id, '-1')  as department_id\n"+
+					"	  ,E.first_name as first_name\n"+
+					"      ,E.last_name  as last_name\n"+
+					"      ,nvl(E.salary + (E.salary*E.commission_pct), E.salary) as salary\n"+
+					"      ,E.commission_pct\n" +
+					"from emp E left join dept D\n"+
+					"on E.department_id = D.department_id\n"+
+					")\n"+
+					"where first_name = ? AND last_name = ?";
+
+			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, emp_firstName);
+			pstmt.setString(2, emp_lastName);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				emp = new EmployeeDTO();
+				DepartmentDTO dept = new DepartmentDTO();
+				SalaryDTO salary = new SalaryDTO();
+				
+				dept.setDepartment(rs.getString(1));
+				dept.setDepartmentID(rs.getInt(2));
+				emp.setFirstName(rs.getString(3));
+				emp.setLastName(rs.getString(4));
+				emp.setFullName(rs.getString(3), rs.getString(4));
+				salary.setSalary(rs.getInt(5));
+				salary.setCommission_pct(rs.getDouble(6));
+				
+				emp.setDepartmentInfo(dept);
+				emp.setSalaryInfo(salary);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return emp;
+	}
 }
 
 

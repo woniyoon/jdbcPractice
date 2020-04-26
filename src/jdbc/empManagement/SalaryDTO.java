@@ -1,8 +1,8 @@
 package jdbc.empManagement;
 
 public class SalaryDTO {
-	private int salary;
-	private double commission_pct;
+	private int salary = 0;
+	private double commission_pct = 0.0;
 	
 	public int getSalary() {
 		return salary;

@@ -34,9 +34,11 @@ public class AppMain {
 				
 				System.out.println("--------------------------------------------------");
 				System.out.println(" 부서명\t\t사원명\t\t전화번호\t이메일");
+				
 				for(EmployeeDTO emp : contactsList) {
 					System.out.println(emp.showContacts());
 				}
+				
 				System.out.println("--------------------------------------------------\n");
 
 				break;
@@ -86,22 +88,45 @@ public class AppMain {
 				
 				break;
 			case "5":
-				System.out.print("▷ 관리자 아이디 : ");
-				String adminID = sc.nextLine();
-				System.out.print("▷ 비밀번호 : ");
-				String password = sc.nextLine();
-				HashMap<String, String> adminMap = new HashMap<String, String>();
-				
-				adminMap.put("adminID", adminID);
-				adminMap.put("password", password);
-				
-				AdminDTO admin = controller.adminLogin(adminMap);
-			
-				if(admin == null) {
-					System.out.println(">>> 관리자만 접근 권한이 있습니다!\n");
+				if(administrator == null) {
+
+					System.out.print("▷ 관리자 아이디 : ");
+					String adminID = sc.nextLine();
+					System.out.print("▷ 비밀번호 : ");
+					String password = sc.nextLine();
+					HashMap<String, String> adminMap = new HashMap<String, String>();
+					
+					adminMap.put("adminID", adminID);
+					adminMap.put("password", password);
+					
+					AdminDTO admin = controller.adminLogin(adminMap);
+					
+					if(admin == null) {
+						System.out.println(">>> 관리자만 접근 권한이 있습니다!\n");
+					} else {
+						administrator = admin;
+						System.out.println(">>> " + admin.getFirstName() + " 관리자님 로그인 성공!\n");
+					}
+					
 				} else {
-					administrator = admin;
-					System.out.println(">>> " + admin.getFirstName() + " 관리자님 로그인 성공!\n");
+					System.out.print("▷ 조회를 원하는 사원의 이름을 입력하세요 : ");
+					String emp_firstName = sc.nextLine();
+					System.out.print("▷ 조회를 원하는 사원의 성을 입력하세요 : ");
+					String emp_lastName = sc.nextLine();
+					
+					EmployeeDTO emp = controller.inquireSalary(emp_firstName, emp_lastName);
+					
+					if (emp != null && emp.getSalaryInfo().getSalary() != 0) {
+						System.out.println("----------------------------------------------------------------");
+						System.out.println(" 부서명\t\t 이름\t\t 급여\t");
+						System.out.println("----------------------------------------------------------------");
+						System.out.println(" " + emp.getDepartmentInfo().getDepartment() + "\t" + emp.getFullName() + "\t$" + emp.getSalaryInfo().getSalary());
+						System.out.println("----------------------------------------------------------------\n");
+
+					} else {
+						System.out.println(">>> 존재하지 않은 사원의 이름을 입력하셨습니다! \n");
+					}
+					
 				}
 				
 				break;

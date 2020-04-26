@@ -68,6 +68,9 @@ public class EmployeeDTO {
 	public void setHiredDate(String hiredDate) {
 		this.hiredDate = hiredDate;
 	}
+	public String getFullName() {
+		return this.fullName;
+	}
 	public void setFullName(String firstName, String lastName) {
 		this.fullName = firstName + " " + lastName;
 	}
