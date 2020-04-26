@@ -308,9 +308,8 @@ public class EmpDAO implements InterEmpDAO {
 
 
 	@Override
-	public EmployeeDTO inquireSalary(String emp_firstName, String emp_lastName) {
+	public EmployeeDTO inquireSalary(String first_name, String last_name) {
 		EmployeeDTO emp = null;
-		
 		
 		try {
 			conn = MyDBConnection.getConn();
@@ -326,11 +325,11 @@ public class EmpDAO implements InterEmpDAO {
 					"from emp E left join dept D\n"+
 					"on E.department_id = D.department_id\n"+
 					")\n"+
-					"where first_name = ? AND last_name = ?";
+					"where lower(first_name) = lower(?) AND lower(last_name) = lower(?)";
 
 			pstmt = conn.prepareStatement(selectSQL);
-			pstmt.setString(1, emp_firstName);
-			pstmt.setString(2, emp_lastName);
+			pstmt.setString(1, first_name);
+			pstmt.setString(2, last_name);
 			
 			rs = pstmt.executeQuery();
 			
@@ -346,6 +345,93 @@ public class EmpDAO implements InterEmpDAO {
 				emp.setFullName(rs.getString(3), rs.getString(4));
 				salary.setSalary(rs.getInt(5));
 				salary.setCommission_pct(rs.getDouble(6));
+				
+				emp.setDepartmentInfo(dept);
+				emp.setSalaryInfo(salary);
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return emp;
+	}
+
+
+	@Override
+	public EmployeeDTO inquireRetirementMoney(String first_name, String last_name) {
+		EmployeeDTO emp = null;
+		
+		try {
+			conn = MyDBConnection.getConn();
+			
+
+			String selectSQL = "\n"+
+					"select department_name\n"+
+					"      ,dept_id\n"+
+					"      ,emp_id\n"+
+					"      ,first_name\n"+
+					"      ,last_name\n"+
+					"      ,hire_date\n"+
+					"      ,case\n"+
+					"        when substr(jubun, 3,2) BETWEEN 03 AND 08 \n"+
+					"            then trunc(months_between(resignation_date, hire_date)/12) * monthly_salary\n"+
+					"        else trunc(months_between(resignation_date, hire_date)/12) * monthly_salary\n"+
+					"      end as 퇴직금\n"+
+					"from\n"+
+					"(select nvl(department_name, '인턴') as department_name\n"+
+					"      ,nvl(dept_id, '-9999')  as dept_id\n"+
+					"      ,emp_id\n"+
+					"      ,first_name\n"+
+					"      ,last_name\n"+
+					"      ,hire_date\n"+
+					"      ,age\n"+
+					"      ,jubun\n"+
+					"      ,monthly_salary\n"+
+					"      ,case\n"+
+					"         when substr(jubun, 3,2) BETWEEN 03 AND 08 \n"+
+					"           then to_char(last_day(extract(year from sysdate)+(63-age) || '-08-01'), 'yyyy-mm-dd')\n"+
+					"         else to_char(last_day(extract(year from sysdate)+(63-age)+1 || '-02-01'), 'yyyy-mm-dd')\n"+
+					"      end as resignation_date\n"+
+					"from \n"+
+					"(select department_id as dept_id\n"+
+					"                  ,employee_id as emp_id\n"+
+					"                  ,first_name as first_name\n"+
+					"                  ,last_name as last_name\n"+
+					"                  ,hire_date as hire_date\n"+
+					"                  ,jubun as jubun\n"+
+					"                  ,nvl(salary + (salary * commission_pct), salary) as monthly_salary\n"+
+					"                  ,case\n"+
+					"                    when substr(jubun,7,1) in ('3','4')\n"+
+					"                      then extract(year from sysdate) - ('20' || substr(jubun, 1, 2))\n"+
+					"                    else extract(year from sysdate) - ('19' || substr(jubun, 1, 2))\n"+
+					"                  end +1 as age\n"+
+					"from emp \n"+
+					") V left join dept\n"+
+					"on V.dept_id = dept.department_id)\n"+
+					"where lower(first_name) = lower(?) AND lower(last_name) = lower(?)";
+
+
+			pstmt = conn.prepareStatement(selectSQL);
+			pstmt.setString(1, first_name);
+			pstmt.setString(2, last_name);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				emp = new EmployeeDTO();
+				DepartmentDTO dept = new DepartmentDTO();
+				SalaryDTO salary = new SalaryDTO();
+				
+				dept.setDepartment(rs.getString(1));
+				dept.setDepartmentID(rs.getInt(2));
+				emp.setEmpID(rs.getInt(3));
+				emp.setFirstName(rs.getString(4));
+				emp.setLastName(rs.getString(5));
+				emp.setFullName(rs.getString(4), rs.getString(5));
+				emp.setHiredDate(rs.getString(6));
+				salary.setRetirementMoney(rs.getInt(7));
 				
 				emp.setDepartmentInfo(dept);
 				emp.setSalaryInfo(salary);

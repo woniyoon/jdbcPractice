@@ -37,7 +37,11 @@ public class Controller {
 		return empDAO.adminLogin(adminMap);
 	}
 
-	public EmployeeDTO inquireSalary(String emp_firstName, String emp_lastName) {
-		return empDAO.inquireSalary(emp_firstName, emp_lastName);
+	public EmployeeDTO inquireSalary(String first_name, String last_name) {
+		return empDAO.inquireSalary(first_name, last_name);
+	}
+
+	public EmployeeDTO inquireRetirementMoney(String first_name, String last_name) {
+		return empDAO.inquireRetirementMoney(first_name, last_name);
 	}
 }

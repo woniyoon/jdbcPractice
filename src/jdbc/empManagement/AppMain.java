@@ -11,10 +11,12 @@ public class AppMain {
 	public static void main(String[] args) {
 		boolean isOn = true;
 		HashMap<String, String> paraMap = new HashMap<String, String>();
-
+		
 		do {
 			showMainMenu();
 			String option = sc.nextLine();
+			String first_name = "";
+			String last_name = "";
 			
 			switch (option) {
 			case "1":
@@ -65,9 +67,9 @@ public class AppMain {
 				break;
 			case "4":
 				System.out.print("▷ 조회를 원하는 사원의 이름을 입력하세요 : ");
-				String first_name = sc.nextLine();
+				first_name = sc.nextLine();
 				System.out.print("▷ 조회를 원하는 사원의 성을 입력하세요 : ");
-				String last_name = sc.nextLine();
+				last_name = sc.nextLine();
 				
 				if("Steven".equalsIgnoreCase(first_name) && "King".equalsIgnoreCase(last_name)) {
 					System.out.println(">>> Steven King의 직속 사수는 존재하지 않습니다. \n");
@@ -110,11 +112,11 @@ public class AppMain {
 					
 				} else {
 					System.out.print("▷ 조회를 원하는 사원의 이름을 입력하세요 : ");
-					String emp_firstName = sc.nextLine();
+					first_name = sc.nextLine();
 					System.out.print("▷ 조회를 원하는 사원의 성을 입력하세요 : ");
-					String emp_lastName = sc.nextLine();
+					last_name = sc.nextLine();
 					
-					EmployeeDTO emp = controller.inquireSalary(emp_firstName, emp_lastName);
+					EmployeeDTO emp = controller.inquireSalary(first_name, last_name);
 					
 					if (emp != null && emp.getSalaryInfo().getSalary() != 0) {
 						System.out.println("----------------------------------------------------------------");
@@ -131,11 +133,28 @@ public class AppMain {
 				
 				break;
 			case "6":
+				System.out.print("▷ 조회를 원하는 사원의 이름을 입력하세요 : ");
+				first_name = sc.nextLine();
+				System.out.print("▷ 조회를 원하는 사원의 성을 입력하세요 : ");
+				last_name = sc.nextLine();
+				
+				EmployeeDTO emp = controller.inquireRetirementMoney(first_name, last_name);
+				
+				if (emp != null && emp.getSalaryInfo().getRetirementMoney() != 0) {
+					System.out.println("----------------------------------------------------------------");
+					System.out.println(" 부서명\t\t 이름\t\t 퇴직금\t");
+					System.out.println("----------------------------------------------------------------");
+					System.out.println(" " + emp.getDepartmentInfo().getDepartment() + "\t\t" + emp.getFullName() + "\t$" + emp.getSalaryInfo().getRetirementMoney());
+					System.out.println("----------------------------------------------------------------\n");
+
+				} else {
+					System.out.println(">>> 존재하지 않은 사원의 이름을 입력하셨습니다! \n");
+				}
 				
 				break;
 			case "7":
-					administrator = null;
-					System.out.println(">>> 로그아웃 됐습니다! \n");
+				administrator = null;
+				System.out.println(">>> 로그아웃 됐습니다! \n");
 				break;
 			case "0":
 				isOn = false;
@@ -145,7 +164,6 @@ public class AppMain {
 				System.out.println(">>> 메뉴에 없는 번호를 선택했습니다. \n");
 				break;
 			}
-			
 			
 		} while(isOn);
 		
